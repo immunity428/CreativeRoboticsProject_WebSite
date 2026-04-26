@@ -1,0 +1,155 @@
+// src/sections/Cta.tsx
+import { useTheme } from "../theme/ThemeContext";
+import ShinkansenSVG from "../components/ShinkansenSVG";
+
+const GOOGLE_FORM_EMBED_URL =
+  "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true";
+
+export default function Cta() {
+  const { tokens: T } = useTheme();
+
+  return (
+    <>
+      <style>{`
+        @media (max-width: 768px) {
+          .cta-section { padding: 60px 20px !important; }
+          .cta-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .cta-h2 { font-size: 36px !important; }
+          .cta-badges { gap: 8px !important; }
+          .cta-badge { font-size: 12px !important; padding: 6px 12px !important; }
+        }
+      `}</style>
+      <section
+        className="cta-section"
+        style={{
+          position: "relative",
+          padding: "80px 48px",
+          overflow: "hidden",
+          background: T.ctaGrad,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `radial-gradient(circle, ${T.ctaDots} 1px, transparent 1.5px)`,
+            backgroundSize: "24px 24px",
+          }}
+        />
+        <div style={{ position: "absolute", top: 30, left: 0, right: 0, opacity: 0.15 }}>
+          <div style={{ animation: "shinkansen-run 18s linear infinite" }}>
+            <ShinkansenSVG width={160} color="white" accent={T.accent} />
+          </div>
+        </div>
+
+        <div
+          className="cta-grid"
+          style={{
+            position: "relative",
+            display: "grid",
+            gridTemplateColumns: "1fr 1.2fr",
+            gap: 48,
+            alignItems: "start",
+          }}
+        >
+          {/* 左: コピー */}
+          <div style={{ color: "white" }}>
+            <div style={{ fontSize: 12, letterSpacing: "0.3em", color: T.yellow, fontWeight: 900, marginBottom: 16 }}>
+              🎫 BOARDING NOW
+            </div>
+            <h2 className="cta-h2" style={{ fontSize: 52, fontWeight: 900, lineHeight: 1.15, margin: "0 0 20px" }}>
+              参加無料！<br />
+              <span style={{ color: T.yellow }}>初心者OK！</span>
+            </h2>
+            <p style={{ fontSize: 16, lineHeight: 1.8, opacity: 0.9, margin: "0 0 24px" }}>
+              定員6名 / 先着順 / 申込み1分で完了
+            </p>
+            <div className="cta-badges" style={{ display: "flex", gap: 12, fontSize: 13, flexWrap: "wrap" }}>
+              {["📅 毎月第2土曜 14:00", "📍 コミン家", "👶 幼児〜小6"].map(t => (
+                <div
+                  key={t}
+                  className="cta-badge"
+                  style={{ padding: "8px 14px", background: "rgba(255,255,255,0.15)", borderRadius: 999 }}
+                >
+                  {t}
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 32, fontSize: 13, opacity: 0.8, lineHeight: 2 }}>
+              ✅ Googleフォームで安全に受け付けています<br />
+              ✅ 送信後、メールで詳細をご連絡します<br />
+              ✅ キャンセルはいつでもOK
+            </div>
+          </div>
+
+          {/* 右: Google フォーム */}
+          <div
+            style={{
+              background: "white",
+              borderRadius: 20,
+              overflow: "hidden",
+              boxShadow: "0 30px 60px -20px rgba(0,0,0,0.5)",
+            }}
+          >
+            <div style={{ padding: "16px 20px", borderBottom: "1px solid #eee", fontSize: 14, fontWeight: 800, color: "#0e1a2b" }}>
+              🚄 体験会に申し込む
+            </div>
+
+            {GOOGLE_FORM_EMBED_URL.includes("YOUR_FORM_ID") ? (
+              <div
+                style={{
+                  padding: 32,
+                  textAlign: "center",
+                  color: "#666",
+                  minHeight: 360,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 12,
+                }}
+              >
+                <div style={{ fontSize: 40 }}>📋</div>
+                <div style={{ fontWeight: 800, fontSize: 16, color: "#0e1a2b" }}>Googleフォームを設定してください</div>
+                <p style={{ fontSize: 13, lineHeight: 1.8, maxWidth: 280 }}>
+                  <code>Cta.tsx</code> の <code>GOOGLE_FORM_EMBED_URL</code> に<br />
+                  GoogleフォームのURLを貼り付けると<br />
+                  ここにフォームが表示されます。
+                </p>
+                <a
+                  href="https://docs.google.com/forms"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: "inline-block",
+                    marginTop: 8,
+                    padding: "10px 20px",
+                    background: "#4285F4",
+                    color: "white",
+                    borderRadius: 10,
+                    fontWeight: 700,
+                    fontSize: 13,
+                    textDecoration: "none",
+                  }}
+                >
+                  Googleフォームを作成 →
+                </a>
+              </div>
+            ) : (
+              <iframe
+                src={GOOGLE_FORM_EMBED_URL}
+                width="100%"
+                height="560"
+                style={{ border: 0, display: "block" }}
+                title="体験会申し込みフォーム"
+                sandbox="allow-scripts allow-forms allow-same-origin"
+              >
+                読み込んでいます…
+              </iframe>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
