@@ -7,21 +7,21 @@ const VENUES = [
     id: 'suwarika',
     name: '公立諏訪東京理科大学',
     mapSrc:
-      '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3227.5114457014324!2d138.1807256745224!3d36.007802211967594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c50e71f7adf49%3A0x2a9c9bdd30254f00!2z5YWs56uL6KuP6Kiq5p2x5Lqs55CG56eR5aSn5a2m!5e0!3m2!1sja!2sjp!4v1777455280137!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3227.5114457014324!2d138.1807256745224!3d36.007802211967594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c50e71f7adf49%3A0x2a9c9bdd30254f00!2z5YWs56uL6KuP6Kiq5p2x5Lqs55CG56eR5aSn5a2m!5e0!3m2!1sja!2sjp!4v1777455280137!5m2!1sja!2sjp',
     rows: [['住所', '長野県茅野市豊平5000-1']],
   },
   {
     id: 'cominka',
     name: 'コミン家',
     mapSrc:
-      '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3228.51018013501!2d138.205615974521!3d35.9833990133182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c5b7ba46cb33f%3A0x115f236ebfc561f7!2z44Kz44Of44Oz5a62IOOCsuOCueODiOODj-OCpuOCuSDjgqvjg5XjgqcgQ29taW5rYQ!5e0!3m2!1sja!2sjp!4v1777455301396!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3228.51018013501!2d138.205615974521!3d35.9833990133182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c5b7ba46cb33f%3A0x115f236ebfc561f7!2z44Kz44Of44Oz5a62IOOCsuOCueODiOODj-OCpuOCuSDjgqvjg5XjgqcgQ29taW5rYQ!5e0!3m2!1sja!2sjp!4v1777455301396!5m2!1sja!2sjp',
     rows: [['住所', '長野県茅野市玉川7401']],
   },
   {
     id: 'tenkou',
     name: 'かふぇ天香',
     mapSrc:
-      '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3228.1610588169183!2d138.1498933745214!3d35.99193111284607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c5731d3a155d5%3A0xb53ce78ae62650da!2z44GL44G144GH5aSp6aaZ!5e0!3m2!1sja!2sjp!4v1777455240661!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3228.1610588169183!2d138.1498933745214!3d35.99193111284607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c5731d3a155d5%3A0xb53ce78ae62650da!2z44GL44G144GH5aSp6aaZ!5e0!3m2!1sja!2sjp!4v1777455240661!5m2!1sja!2sjp',
     rows: [['住所', '長野県茅野市ちの3053']],
   },
 ] as const;
