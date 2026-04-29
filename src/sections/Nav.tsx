@@ -4,32 +4,33 @@ import { useTheme } from '../theme/ThemeContext';
 import { usePage, PageId } from '../contexts/PageContext';
 
 type NavLink =
-  | { kind: 'anchor'; label: string }
+  | { kind: 'anchor'; label: string; sectionId: string }
   | { kind: 'page'; label: string; page: PageId };
+
+/**
+ * セクション ID は App.tsx で各セクションを <div id="..."> でラップした値と一致させること
+ */
+const LINKS: NavLink[] = [
+  { kind: 'anchor', label: '特徴', sectionId: 'features' },
+  { kind: 'anchor', label: '授業風景', sectionId: 'flow' },
+  { kind: 'anchor', label: '講師', sectionId: 'teacher' },
+  { kind: 'anchor', label: 'FAQ', sectionId: 'faq' },
+  { kind: 'anchor', label: 'アクセス', sectionId: 'access' },
+  { kind: 'page', label: '活動報告', page: 'activity' },
+  { kind: 'page', label: '協力団体', page: 'partners' },
+];
 
 export default function Nav() {
   const { tokens: T } = useTheme();
   const { page, navigate } = usePage();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // anchor = ホームページ内のセクションスクロール用ラベル
-  // page   = 別ページに遷移
-  const links: NavLink[] = [
-    { kind: 'anchor', label: '特徴' },
-    { kind: 'anchor', label: '授業風景' },
-    { kind: 'anchor', label: '講師' },
-    { kind: 'anchor', label: 'FAQ' },
-    { kind: 'anchor', label: 'アクセス' },
-    { kind: 'page', label: '活動報告', page: 'activity' },
-    { kind: 'page', label: '協力団体', page: 'partners' },
-  ];
-
   const handleClick = (l: NavLink) => {
     if (l.kind === 'page') {
       navigate(l.page);
-    } else if (page !== 'home') {
-      // 別ページにいるときはホームに戻る（アンカーリンクはホームのセクション用）
-      navigate('home');
+    } else {
+      // アンカー: ホームへ戻り（既にホームならそのまま）対象セクションへスクロール
+      navigate('home', { scrollTo: l.sectionId });
     }
     setMenuOpen(false);
   };
@@ -55,7 +56,7 @@ export default function Nav() {
           zIndex: 100,
         }}
       >
-        {/* ロゴ（クリックでホームに戻る） */}
+        {/* ロゴ（クリックでホーム最上部へ） */}
         <div
           onClick={() => navigate('home')}
           style={{
@@ -101,7 +102,7 @@ export default function Nav() {
             alignItems: 'center',
           }}
         >
-          {links.map((l) => {
+          {LINKS.map((l) => {
             const isActivePage = l.kind === 'page' && page === l.page;
             return (
               <span
@@ -127,11 +128,11 @@ export default function Nav() {
           })}
         </div>
 
-        {/* PC: CTAボタン */}
+        {/* PC: CTAボタン（応募はホーム下部の Cta セクションへ） */}
         <button
           type='button'
           className='nav-cta-desktop'
-          onClick={() => navigate('home')}
+          onClick={() => navigate('home', { scrollTo: 'cta' })}
           style={{
             background: T.accent,
             color: 'white',
@@ -198,7 +199,7 @@ export default function Nav() {
             zIndex: 99,
           }}
         >
-          {links.map((l) => {
+          {LINKS.map((l) => {
             const isActivePage = l.kind === 'page' && page === l.page;
             return (
               <div
@@ -228,7 +229,7 @@ export default function Nav() {
             <button
               type='button'
               onClick={() => {
-                navigate('home');
+                navigate('home', { scrollTo: 'cta' });
                 setMenuOpen(false);
               }}
               style={{
