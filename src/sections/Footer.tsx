@@ -1,5 +1,5 @@
 // src/sections/Footer.tsx
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from '../theme/ThemeContext';
 
 export default function Footer() {
   const { tokens: T } = useTheme();
@@ -17,25 +17,21 @@ export default function Footer() {
       `}</style>
       <footer
         style={{
-          padding: "32px 24px",
+          padding: '32px 24px',
           borderTop: `1px solid ${T.border}`,
           fontSize: 12,
           color: T.textFoot,
         }}
       >
         <div
-          className="footer-inner"
+          className='footer-inner'
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <div>© 2025 ロボット創造教室 /</div>
-          <div style={{ display: "flex", gap: 20 }}>
-            <span style={{ cursor: "pointer" }}>プライバシーポリシー</span>
-            <span style={{ cursor: "pointer" }}>お問い合わせ</span>
-          </div>
+          <div>© 2026 ロボット創造教室 /</div>
         </div>
       </footer>
     </>
