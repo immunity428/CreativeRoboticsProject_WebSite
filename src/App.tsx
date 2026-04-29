@@ -1,33 +1,24 @@
 // src/App.tsx
-import { useEffect } from "react";
-import { ThemeProvider, useTheme } from "./theme/ThemeContext";
-import Nav from "./sections/Nav";
-import Hero from "./sections/Hero";
-import Features from "./sections/Features";
-import Flow from "./sections/Flow";
-import Teacher from "./sections/Teacher";
-import Faq from "./sections/Faq";
-import Access from "./sections/Access";
-import Cta from "./sections/Cta";
-import Footer from "./sections/Footer";
 
-function ThemedBody() {
-  const { tokens: T, mode } = useTheme();
+import { ThemeProvider } from './theme/ThemeContext';
+import { PageProvider, usePage } from './contexts/PageContext';
 
-  useEffect(() => {
-    document.body.classList.toggle("light-mode", mode === "light");
-  }, [mode]);
+import Nav from './sections/Nav';
+import Hero from './sections/Hero';
+import Features from './sections/Features';
+import Flow from './sections/Flow';
+import Teacher from './sections/Teacher';
+import Faq from './sections/Faq';
+import Access from './sections/Access';
+import Cta from './sections/Cta';
+import Footer from './sections/Footer';
 
+import ActivityReport from './sections/ActivityReport';
+import Partners from './sections/Partners';
+
+function HomePage() {
   return (
-    <div
-      style={{
-        background: T.bg,
-        color: T.text,
-        fontFamily:
-          '"Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif',
-      }}
-    >
-      <Nav />
+    <>
       <Hero />
       <Features />
       <Flow />
@@ -35,15 +26,31 @@ function ThemedBody() {
       <Faq />
       <Access />
       <Cta />
-      <Footer />
-    </div>
+    </>
   );
+}
+
+function PageSwitcher() {
+  const { page } = usePage();
+  switch (page) {
+    case 'activity':
+      return <ActivityReport />;
+    case 'partners':
+      return <Partners />;
+    case 'home':
+    default:
+      return <HomePage />;
+  }
 }
 
 export default function App() {
   return (
-    <ThemeProvider initialMode="dark">
-      <ThemedBody />
+    <ThemeProvider>
+      <PageProvider>
+        <Nav />
+        <PageSwitcher />
+        <Footer />
+      </PageProvider>
     </ThemeProvider>
   );
 }
