@@ -18,8 +18,8 @@ const placeholderStyle = (dark: boolean): React.CSSProperties => ({
 });
 
 export default function Flow() {
-  const { tokens: T, mode } = useTheme();
-  const isDark = mode === "dark";
+  const { tokens: T } = useTheme();
+  const isDark = true; // 背景は常にダーク固定
   const steps = [
     { time: "1hour", title: "🚉 集合・オリエンテーション", body: "あいさつをして、今日のテーマや目標を確認します" },
     { time: "2hour", title: "🔍 課題説明・アイデア出し", body: "ロボットの課題を聞き、どんな動きをさせるか考えます" },
