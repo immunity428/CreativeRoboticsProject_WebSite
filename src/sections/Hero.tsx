@@ -77,6 +77,7 @@ export default function Hero() {
                 letterSpacing: "-0.02em",
                 marginBottom: 28,
                 margin: "0 0 28px",
+                color: "#ffffff",          // ← 白を明示
               }}
             >
               プラレールが、
@@ -128,7 +129,7 @@ export default function Hero() {
                 type="button"
                 style={{
                   background: T.surface,
-                  color: T.text,
+                  color: "#ffffff",        // ← 白を明示
                   border: `1px solid ${T.borderStrong}`,
                   padding: "18px 28px",
                   borderRadius: 14,
@@ -151,7 +152,7 @@ export default function Hero() {
                       padding: "6px 12px",
                       borderRadius: 999,
                       background: T.surface,
-                      color: T.textMute2,
+                      color: "#ffffff",    // ← 白を明示
                       border: `1px solid ${T.border}`,
                     }}
                   >
@@ -170,7 +171,7 @@ export default function Hero() {
                 top: -16,
                 left: -16,
                 background: T.primary,
-                color: T.cardText,
+                color: "#ffffff",          // ← 白を明示
                 fontWeight: 900,
                 fontSize: 12,
                 padding: "8px 14px",
