@@ -1,26 +1,29 @@
 // src/sections/Teacher.tsx
 import { useEffect, useState } from "react";
 import { useTheme } from "../theme/ThemeContext";
+import teachersData from "../data/teachers.json";
 
-import kake  from "../assets/teacher_kake.jpg";
+// 画像は動的importできないため photoKey → 画像モジュールのマップを手動管理
+// 新しい講師を追加したら、ここに import と PHOTO_MAP エントリを追加してください
+import kake from "../assets/teacher_kake.jpg";
 
-const TEACHERS = [
-  {
-    name: "かけ",
-    role: "webエンジニア / メイン講師",
-    bio: "「明日を今日よりも少し良くするために活動しています。」",
-    photo: kake,
-    stats: [{ k: "年齢", v: "20" }, { k: "得意", v: "IoT・組込み" }, { k: "好物", v: "ソフトクリーム" }],
-  },
-];
+const PHOTO_MAP: Record<string, string> = {
+  kake,
+};
+
+const TEACHERS = teachersData.teachers.map((t) => ({
+  ...t,
+  photo: PHOTO_MAP[t.photoKey] ?? "",
+}));
 
 export default function Teacher() {
   const { tokens: T } = useTheme();
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
+    if (TEACHERS.length <= 1) return;
     const id = setInterval(() => {
-      setCurrent(prev => (prev + 1) % TEACHERS.length);
+      setCurrent((prev) => (prev + 1) % TEACHERS.length);
     }, 30_000);
     return () => clearInterval(id);
   }, []);
@@ -122,7 +125,7 @@ export default function Teacher() {
                 transform: "rotate(-3deg)",
               }}
             >
-              ⚙️ 大学生
+              {teacher.badge}
             </div>
           </div>
 
@@ -139,9 +142,9 @@ export default function Teacher() {
               className="teacher-stats"
               style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}
             >
-              {teacher.stats.map(s => (
+              {teacher.stats.map((s) => (
                 <div
-                  key={s.k}
+                  key={s.key}
                   style={{
                     padding: 16,
                     background: T.bgDeep,
@@ -150,9 +153,9 @@ export default function Teacher() {
                   }}
                 >
                   <div style={{ fontSize: 10, color: T.primary, letterSpacing: "0.15em", marginBottom: 6 }}>
-                    {s.k}
+                    {s.key}
                   </div>
-                  <div style={{ fontSize: 15, fontWeight: 800 }}>{s.v}</div>
+                  <div style={{ fontSize: 15, fontWeight: 800 }}>{s.value}</div>
                 </div>
               ))}
             </div>

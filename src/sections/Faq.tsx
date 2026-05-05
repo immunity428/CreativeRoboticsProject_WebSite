@@ -1,12 +1,8 @@
 // src/sections/Faq.tsx
 import { useTheme } from "../theme/ThemeContext";
+import faqData from "../data/faq.json";
 
-const FAQ_ITEMS = [
-  { q: "未経験でも大丈夫?", a: "はい！ほぼ全員が初心者からスタート。プラレールから入るので楽しく始められます。" },
-  { q: "何歳から参加できる?", a: "幼児（年長）〜小学6年生まで対応。年齢ごとに課題を調整します。" },
-  { q: "持ち物は?", a: "手ぶらでOK！PC・プラレール教材は全て教室で用意します。" },
-  { q: "保護者の付き添いは?", a: "ご自由です。送迎のみでも問題ありません。" },
-];
+const FAQ_ITEMS = faqData.items;
 
 export default function Faq() {
   const { tokens: T } = useTheme();
@@ -46,7 +42,7 @@ export default function Faq() {
         >
           {FAQ_ITEMS.map((item) => (
             <div
-              key={item.q}
+              key={item.question}
               style={{
                 padding: 24,
                 background: T.surface,
@@ -71,7 +67,7 @@ export default function Faq() {
                 >
                   Q
                 </span>
-                <span style={{ fontSize: 15, fontWeight: 800 }}>{item.q}</span>
+                <span style={{ fontSize: 15, fontWeight: 800 }}>{item.question}</span>
               </div>
               <div
                 style={{
@@ -81,7 +77,7 @@ export default function Faq() {
                   paddingLeft: 38,
                 }}
               >
-                {item.a}
+                {item.answer}
               </div>
             </div>
           ))}

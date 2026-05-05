@@ -1,0 +1,18 @@
+{
+  "_comment": "講師情報。photo には src/assets/ 以下の画像ファイル名を入れてください（importはTeacher.tsxで行います）。statsのキーと値は自由に変更できます。",
+  "teachers": [
+    {
+      "id": "kake",
+      "name": "かけ",
+      "role": "webエンジニア / メイン講師",
+      "bio": "「明日を今日よりも少し良くするために活動しています。」",
+      "photoKey": "kake",
+      "badge": "⚙️ 大学生",
+      "stats": [
+        { "key": "年齢", "value": "20" },
+        { "key": "得意", "value": "IoT・組込み" },
+        { "key": "好物", "value": "ソフトクリーム" }
+      ]
+    }
+  ]
+}

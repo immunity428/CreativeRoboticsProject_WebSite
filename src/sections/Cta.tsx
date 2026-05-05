@@ -1,12 +1,22 @@
 // src/sections/Cta.tsx
 import { useTheme } from '../theme/ThemeContext';
 import ShinkansenSVG from '../components/ShinkansenSVG';
+import eventData from '../data/event.json';
 
-const GOOGLE_FORM_EMBED_URL =
-  'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true';
+const { next, googleFormId } = eventData;
+
+const GOOGLE_FORM_EMBED_URL = googleFormId
+  ? `https://docs.google.com/forms/d/e/${googleFormId}/viewform?embedded=true`
+  : null;
 
 export default function Cta() {
   const { tokens: T } = useTheme();
+
+  const badges = [
+    `📅 ${next.dateLabel}`,
+    `📍 ${next.placeLabel}`,
+    `👶 ${next.ageRange}`,
+  ];
 
   return (
     <>
@@ -94,7 +104,7 @@ export default function Cta() {
                 margin: '0 0 24px',
               }}
             >
-              定員6名 / 定員超過の場合抽選 / 申込み1分で完了
+              定員{next.capacity}名 / 定員超過の場合抽選 / 申込み1分で完了
             </p>
             <div
               className='cta-badges'
@@ -105,7 +115,7 @@ export default function Cta() {
                 flexWrap: 'wrap',
               }}
             >
-              {['📅 未定', '📍 未定', '👶 幼児〜小6'].map((t) => (
+              {badges.map((t) => (
                 <div
                   key={t}
                   className='cta-badge'
@@ -155,7 +165,7 @@ export default function Cta() {
               🚄 イベントに申し込む
             </div>
 
-            {GOOGLE_FORM_EMBED_URL.includes('YOUR_FORM_ID') ? (
+            {!GOOGLE_FORM_EMBED_URL ? (
               <div
                 style={{
                   padding: 32,

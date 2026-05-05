@@ -1,0 +1,7 @@
+{
+  "_comment": "お問い合わせページの設定。googleFormId に Google フォームの共有URLに含まれる英数字ID部分を入れてください。",
+  "_googleFormId_hint": "例: https://docs.google.com/forms/d/e/1FAIpQLSe.../viewform の '1FAIpQLSe...' の部分",
+  "googleFormId": null,
+  "contactEmail": null,
+  "_contactEmail_comment": "フォームの代わりにメールアドレスを表示したい場合に入力。googleFormId が設定されている場合はフォームが優先されます。"
+}

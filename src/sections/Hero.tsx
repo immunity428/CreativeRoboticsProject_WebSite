@@ -2,9 +2,21 @@
 import { useTheme } from "../theme/ThemeContext";
 import ShinkansenSVG from "../components/ShinkansenSVG";
 import headerImg from "../assets/header.jpeg";
+import eventData from "../data/event.json";
+
+const { next } = eventData;
+
+/** 次回日程の表示ラベルを組み立てる */
+function buildNextLabel(): string {
+  if (!next.date || next.status === "coming_soon") return "COMING SOON";
+  const dow = next.dayOfWeek ? `(${next.dayOfWeek})` : "";
+  return `${next.date} ${dow}`.trim();
+}
 
 export default function Hero() {
   const { tokens: T } = useTheme();
+  const nextLabel = buildNextLabel();
+
   return (
     <>
       <style>{`
@@ -77,7 +89,7 @@ export default function Hero() {
                 letterSpacing: "-0.02em",
                 marginBottom: 28,
                 margin: "0 0 28px",
-                color: "#ffffff",          // ← 白を明示
+                color: "#ffffff",
               }}
             >
               プラレールが、
@@ -129,7 +141,7 @@ export default function Hero() {
                 type="button"
                 style={{
                   background: T.surface,
-                  color: "#ffffff",        // ← 白を明示
+                  color: "#ffffff",
                   border: `1px solid ${T.borderStrong}`,
                   padding: "18px 28px",
                   borderRadius: 14,
@@ -152,7 +164,7 @@ export default function Hero() {
                       padding: "6px 12px",
                       borderRadius: 999,
                       background: T.surface,
-                      color: "#ffffff",    // ← 白を明示
+                      color: "#ffffff",
                       border: `1px solid ${T.border}`,
                     }}
                   >
@@ -171,7 +183,7 @@ export default function Hero() {
                 top: -16,
                 left: -16,
                 background: T.primary,
-                color: "#ffffff",          // ← 白を明示
+                color: "#ffffff",
                 fontWeight: 900,
                 fontSize: 12,
                 padding: "8px 14px",
@@ -213,9 +225,11 @@ export default function Hero() {
                 boxShadow: `0 12px 24px -8px ${T.accent}80`,
               }}
             >
-              次回 XX/X (X)
+              {next.date
+                ? `次回 ${next.dateLabel}`
+                : "次回 XX/X (X)"}
               <br />
-              <span style={{ fontSize: 18 }}>COMING SOON</span>
+              <span style={{ fontSize: 18 }}>{nextLabel}</span>
             </div>
           </div>
         </div>
