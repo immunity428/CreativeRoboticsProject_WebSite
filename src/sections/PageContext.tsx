@@ -26,13 +26,21 @@ export function PageProvider({ children }: { children: ReactNode }) {
       if (opts.scroll === false) return;
       if (opts.scrollTo) {
         const el = document.getElementById(opts.scrollTo);
-        if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
       }
-      if (!samePage) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      if (!samePage) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     };
 
-    if (samePage) { requestAnimationFrame(run); }
-    else { requestAnimationFrame(() => requestAnimationFrame(run)); }
+    if (samePage) {
+      requestAnimationFrame(run);
+    } else {
+      requestAnimationFrame(() => requestAnimationFrame(run));
+    }
   };
 
   return (
