@@ -42,17 +42,6 @@ export default function Hero() {
       });
   }, []);
 
-  // 次回日程のバッジに表示するラベルを組み立てる
-  // status が coming_soon、または date が未設定なら "COMING SOON" を表示
-  function buildNextLabel(): string {
-    if (!event) return 'COMING SOON';
-    if (!event.date || event.status === 'coming_soon') return 'COMING SOON';
-    const dow = event.day_of_week ? `(${event.day_of_week})` : '';
-    return `${event.date_label} ${dow}`.trim();
-  }
-
-  const nextLabel = buildNextLabel();
-
   return (
     <>
       <style>{`
