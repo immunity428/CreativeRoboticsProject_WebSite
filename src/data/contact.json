@@ -1,5 +1,5 @@
 {
   "_comment": "お問い合わせページの設定。googleFormId に Google フォームの共有URLに含まれる英数字ID部分を入れてください。",
-  "_googleFormId_hint": "https://docs.google.com/forms/d/e/1FAIpQLSccKUbWAh13RUIDKg6R5UypuJPFS7xZMkuyDP9uZNYq-M2YvA/viewform?usp=dialog",
+  "_googleFormId_hint": "例: https://docs.google.com/forms/d/e/1FAIpQLSe.../viewform の '1FAIpQLSe...' の部分",
   "googleFormId": "1FAIpQLSccKUbWAh13RUIDKg6R5UypuJPFS7xZMkuyDP9uZNYq-M2YvA"
 }

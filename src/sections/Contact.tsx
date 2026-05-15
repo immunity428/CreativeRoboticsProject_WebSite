@@ -3,7 +3,10 @@ import { useTheme } from '../theme/ThemeContext';
 import { usePage } from '../contexts/PageContext';
 import contactData from '../data/contact.json';
 
-const { googleFormId, contactEmail } = contactData;
+// googleFormId だけを取り出す（contactEmail は使わない）
+const { googleFormId } = contactData;
+
+// googleFormId が設定されていれば埋め込みURLを生成する
 const FORM_URL = googleFormId
   ? `https://docs.google.com/forms/d/e/${googleFormId}/viewform?embedded=true`
   : null;
@@ -143,36 +146,6 @@ export default function Contact() {
                 </div>
               </div>
             ))}
-
-            {/* メールアドレス表示（フォーム未設定 & メール設定済みの場合） */}
-            {contactEmail && !FORM_URL && (
-              <div
-                style={{
-                  background: T.bgDeep,
-                  border: `1px solid ${T.primary}30`,
-                  borderRadius: 16,
-                  padding: 24,
-                  textAlign: 'center',
-                }}
-              >
-                <div
-                  style={{ fontSize: 13, color: T.textMute, marginBottom: 8 }}
-                >
-                  メールでのお問い合わせ
-                </div>
-                <a
-                  href={`mailto:${contactEmail}`}
-                  style={{
-                    color: T.primary,
-                    fontWeight: 800,
-                    fontSize: 15,
-                    textDecoration: 'none',
-                  }}
-                >
-                  {contactEmail}
-                </a>
-              </div>
-            )}
           </div>
 
           {/* 右：Google フォーム */}
@@ -200,6 +173,7 @@ export default function Contact() {
               <span>🚄</span> お問い合わせフォーム
             </div>
 
+            {/* FORM_URL がある → フォームを埋め込む、ない → COMING SOON を表示 */}
             {FORM_URL ? (
               <iframe
                 src={FORM_URL}
@@ -240,12 +214,6 @@ export default function Contact() {
                   }}
                 >
                   フォームを現在準備中です。
-                  {contactEmail && (
-                    <>
-                      <br />
-                      お急ぎの方は左のメールアドレスへどうぞ。
-                    </>
-                  )}
                 </div>
               </div>
             )}
