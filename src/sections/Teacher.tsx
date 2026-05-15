@@ -1,11 +1,11 @@
 // src/sections/Teacher.tsx
-import { useEffect, useState } from "react";
-import { useTheme } from "../theme/ThemeContext";
-import teachersData from "../data/teachers.json";
+import { useEffect, useState } from 'react';
+import { useTheme } from '../theme/ThemeContext';
+import teachersData from '../data/teachers.json';
 
 // 画像は動的importできないため photoKey → 画像モジュールのマップを手動管理
 // 新しい講師を追加したら、ここに import と PHOTO_MAP エントリを追加してください
-import kake from "../assets/teacher_kake.jpg";
+import kake from '../assets/teacher_kake.jpg';
 
 const PHOTO_MAP: Record<string, string> = {
   kake,
@@ -13,7 +13,7 @@ const PHOTO_MAP: Record<string, string> = {
 
 const TEACHERS = teachersData.teachers.map((t) => ({
   ...t,
-  photo: PHOTO_MAP[t.photoKey] ?? "",
+  photo: PHOTO_MAP[t.photoKey] ?? '',
 }));
 
 export default function Teacher() {
@@ -41,37 +41,52 @@ export default function Teacher() {
           .teacher-name { font-size: 22px !important; }
         }
       `}</style>
-      <section className="teacher-section" style={{ padding: "80px 48px", background: T.bgGrad }}>
+      <section
+        className='teacher-section'
+        style={{ padding: '80px 48px', background: T.bgGrad }}
+      >
         <div
           style={{
             fontSize: 12,
             color: T.primary,
-            letterSpacing: "0.3em",
+            letterSpacing: '0.3em',
             fontWeight: 800,
             marginBottom: 14,
           }}
         >
           ★ 講師紹介 ★
         </div>
-        <h2 style={{ fontSize: 36, fontWeight: 900, margin: "0 0 24px" }}>担当講師</h2>
+        <h2 style={{ fontSize: 36, fontWeight: 900, margin: '0 0 24px' }}>
+          担当講師
+        </h2>
 
         {/* 講師名ボタン */}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 32 }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 8,
+            flexWrap: 'wrap',
+            marginBottom: 32,
+          }}
+        >
           {TEACHERS.map((t, i) => (
             <button
               key={t.name}
-              type="button"
+              type='button'
               onClick={() => setCurrent(i)}
               style={{
-                padding: "7px 18px",
+                padding: '7px 18px',
                 borderRadius: 999,
-                border: i === current ? `2px solid ${T.primary}` : `1px solid ${T.border}`,
+                border:
+                  i === current
+                    ? `2px solid ${T.primary}`
+                    : `1px solid ${T.border}`,
                 background: i === current ? T.primary : T.surface,
-                color: i === current ? "#fff" : T.textMute,
+                color: i === current ? '#fff' : T.textMute,
                 fontWeight: i === current ? 800 : 500,
                 fontSize: 14,
-                cursor: "pointer",
-                transition: "all 0.2s",
+                cursor: 'pointer',
+                transition: 'all 0.2s',
               }}
             >
               {t.name}
@@ -81,66 +96,78 @@ export default function Teacher() {
 
         {/* 講師カード */}
         <div
-          className="teacher-card"
+          className='teacher-card'
           style={{
-            display: "grid",
-            gridTemplateColumns: "auto 1fr",
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
             gap: 48,
-            alignItems: "center",
+            alignItems: 'center',
             background: T.surface,
             border: `1px solid ${T.border}`,
             borderRadius: 24,
-            padding: "48px",
+            padding: '48px',
           }}
         >
           {/* 写真 */}
-          <div style={{ position: "relative" }}>
+          <div style={{ position: 'relative' }}>
             <div
-              className="teacher-photo-wrap"
+              className='teacher-photo-wrap'
               style={{
                 width: 160,
                 height: 200,
                 borderRadius: 20,
                 border: `3px solid ${T.primary}`,
-                overflow: "hidden",
+                overflow: 'hidden',
               }}
             >
               <img
                 src={teacher.photo}
                 alt={teacher.name}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
               />
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                bottom: 12,
-                left: -16,
-                background: T.yellow,
-                color: "#0e1a2b",
-                padding: "8px 14px",
-                borderRadius: 12,
-                fontWeight: 900,
-                fontSize: 12,
-                transform: "rotate(-3deg)",
-              }}
-            >
-              {teacher.badge}
             </div>
           </div>
 
           {/* テキスト情報 */}
           <div>
-            <div className="teacher-name" style={{ fontSize: 28, fontWeight: 900, marginBottom: 6 }}>{teacher.name}</div>
-            <div style={{ fontSize: 13, color: T.primary, fontWeight: 700, marginBottom: 20 }}>
+            <div
+              className='teacher-name'
+              style={{ fontSize: 28, fontWeight: 900, marginBottom: 6 }}
+            >
+              {teacher.name}
+            </div>
+            <div
+              style={{
+                fontSize: 13,
+                color: T.primary,
+                fontWeight: 700,
+                marginBottom: 20,
+              }}
+            >
               {teacher.role}
             </div>
-            <p style={{ fontSize: 16, lineHeight: 1.95, color: T.textMute, margin: "0 0 28px" }}>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.95,
+                color: T.textMute,
+                margin: '0 0 28px',
+              }}
+            >
               {teacher.bio}
             </p>
             <div
-              className="teacher-stats"
-              style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}
+              className='teacher-stats'
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 12,
+              }}
             >
               {teacher.stats.map((s) => (
                 <div
@@ -152,7 +179,14 @@ export default function Teacher() {
                     border: `1px solid ${T.pillBorder}`,
                   }}
                 >
-                  <div style={{ fontSize: 10, color: T.primary, letterSpacing: "0.15em", marginBottom: 6 }}>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      color: T.primary,
+                      letterSpacing: '0.15em',
+                      marginBottom: 6,
+                    }}
+                  >
                     {s.key}
                   </div>
                   <div style={{ fontSize: 15, fontWeight: 800 }}>{s.value}</div>
