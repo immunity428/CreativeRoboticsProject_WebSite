@@ -1,5 +1,7 @@
 # 🚄 ロボット創造教室 公式サイト
 
+![alt text](src/assets/robot_creative_lab_logo.svg)
+
 > プラレールを M5Stack で改造して、自分だけのロボット列車をつくろう。
 
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://creative-robotics-project-web-site.vercel.app)
