@@ -288,14 +288,16 @@ export default function Hero() {
                 borderRadius: 14,
                 transform: 'rotate(4deg)',
                 fontWeight: 800,
-                fontSize: 13,
+                fontSize: 16,
                 boxShadow: `0 12px 24px -8px ${T.accent}80`,
               }}
             >
               {/* date が設定されていれば「次回 〇〇」、なければ「次回 XX/X (X)」 */}
               {event?.date ? `次回 ${event.date_label}` : '次回 XX/X (X)'}
               <br />
-              <span style={{ fontSize: 18 }}>{nextLabel}</span>
+              <span style={{ fontSize: 18 }}>
+                【{event?.place_label ?? '場所未定'}】で開催！
+              </span>
             </div>
           </div>
         </div>
