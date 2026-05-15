@@ -1,5 +1,9 @@
 // src/sections/Flow.tsx
 import { useTheme } from '../theme/ThemeContext';
+import photo001 from '../assets/FlowImages/001.jpg';
+import photo002 from '../assets/FlowImages/002.jpg';
+import photo003 from '../assets/FlowImages/003.jpg';
+import photo004 from '../assets/FlowImages/004.jpg';
 
 export default function Flow() {
   const { tokens: T } = useTheme();
@@ -46,10 +50,10 @@ export default function Flow() {
   //
   // 画像が準備できるまでは src を空文字 "" のままにしておくと非表示になる。
   const PHOTOS: { src: string; alt: string }[] = [
-    { src: 'src/assets/FlowImages/002.jpg', alt: '授業風景① 全体の様子' }, // ← ここに画像URLを入れる
-    { src: 'src/assets/FlowImages/003.jpg', alt: '授業風景② M5Stack作業' }, // ← ここに画像URLを入れる
-    { src: 'src/assets/FlowImages/004.jpg', alt: '授業風景③ 走らせる！' }, // ← ここに画像URLを入れる
-    { src: 'src/assets/FlowImages/001.jpg', alt: '授業風景④ シェアタイム' }, // ← ここに画像URLを入れる
+    { src: photo002, alt: '授業風景① 全体の様子' }, // ← ここに画像URLを入れる
+    { src: photo003, alt: '授業風景② M5Stack作業' }, // ← ここに画像URLを入れる
+    { src: photo004, alt: '授業風景③ 走らせる！' }, // ← ここに画像URLを入れる
+    { src: photo001, alt: '授業風景④ シェアタイム' }, // ← ここに画像URLを入れる
   ];
 
   return (
