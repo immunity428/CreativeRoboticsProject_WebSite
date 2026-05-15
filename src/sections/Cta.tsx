@@ -1,25 +1,65 @@
 // src/sections/Cta.tsx
+//
+// イベント申し込みセクション（CTA = Call To Action）
+// Supabase の events テーブルから最新のイベント情報を取得して表示する。
+// google_form_id が設定されていれば Google フォームを埋め込む。
+
+import { useEffect, useState } from 'react';
 import { useTheme } from '../theme/ThemeContext';
 import ShinkansenSVG from '../components/ShinkansenSVG';
-import eventData from '../data/event.json';
+import { supabase } from '../lib/supabase';
 
-const { next, googleFormId } = eventData;
-
-const GOOGLE_FORM_EMBED_URL = googleFormId
-  ? `https://docs.google.com/forms/d/e/${googleFormId}/viewform?embedded=true`
-  : null;
+// events テーブルの1行分の型
+type EventData = {
+  id: number;
+  date: string | null; // 開催日（未定なら null）
+  date_label: string; // 表示用の日付ラベル（例: "2026/06/15"）
+  day_of_week: string | null; // 曜日（例: "日"）
+  place: string | null; // 会場名（未定なら null）
+  place_label: string; // 表示用の会場ラベル
+  capacity: number; // 定員
+  age_range: string; // 対象年齢（例: "幼児〜小6"）
+  status: string; // 状態（"coming_soon" | "open" | "closed"）
+  google_form_id: string | null; // Google フォームの ID（未設定なら null）
+};
 
 export default function Cta() {
   const { tokens: T } = useTheme();
 
+  // Supabase から取得したイベントデータを管理する state
+  // null = まだ取得していない状態
+  const [event, setEvent] = useState<EventData | null>(null);
+
+  // マウント時に events テーブルの最新1件を取得する
+  useEffect(() => {
+    supabase
+      .from('events')
+      .select('*')
+      .order('id', { ascending: false }) // id の降順 = 最新のものが先頭
+      .limit(1) // 1件だけ取得
+      .single() // 配列ではなくオブジェクトとして受け取る
+      .then(({ data, error }) => {
+        if (error) console.error(error);
+        else setEvent(data);
+      });
+  }, []); // [] = マウント時に1回だけ実行
+
+  // google_form_id が設定されていれば埋め込みURLを生成する
+  // ?? は「左辺が null または undefined のとき右辺を使う」演算子
+  const formUrl = event?.google_form_id
+    ? `https://docs.google.com/forms/d/e/${event.google_form_id}/viewform?embedded=true`
+    : null;
+
+  // バッジに表示する情報（Supabase のデータがまだなければデフォルト値を使う）
   const badges = [
-    `📅 ${next.dateLabel}`,
-    `📍 ${next.placeLabel}`,
-    `👶 ${next.ageRange}`,
+    `📅 ${event?.date_label ?? '未定'}`,
+    `📍 ${event?.place_label ?? '未定'}`,
+    `👶 ${event?.age_range ?? '幼児〜小6'}`,
   ];
 
   return (
     <>
+      {/* モバイル用レスポンシブスタイル */}
       <style>{`
         @media (max-width: 768px) {
           .cta-section { padding: 60px 20px !important; }
@@ -29,6 +69,7 @@ export default function Cta() {
           .cta-badge { font-size: 12px !important; padding: 6px 12px !important; }
         }
       `}</style>
+
       <section
         className='cta-section'
         style={{
@@ -38,6 +79,7 @@ export default function Cta() {
           background: T.ctaGrad,
         }}
       >
+        {/* 背景のドットパターン */}
         <div
           style={{
             position: 'absolute',
@@ -46,6 +88,8 @@ export default function Cta() {
             backgroundSize: '24px 24px',
           }}
         />
+
+        {/* アニメーション（新幹線）*/}
         <div
           style={{
             position: 'absolute',
@@ -60,6 +104,7 @@ export default function Cta() {
           </div>
         </div>
 
+        {/* メインコンテンツ: 左にコピー、右にフォーム */}
         <div
           className='cta-grid'
           style={{
@@ -70,7 +115,7 @@ export default function Cta() {
             alignItems: 'start',
           }}
         >
-          {/* 左: コピー */}
+          {/* 左: キャッチコピーとバッジ */}
           <div style={{ color: 'white' }}>
             <div
               style={{
@@ -96,6 +141,8 @@ export default function Cta() {
               <br />
               <span style={{ color: T.yellow }}>初心者OK！</span>
             </h2>
+
+            {/* 定員は Supabase の値を使う。まだ取得できていなければ 6 をデフォルトにする */}
             <p
               style={{
                 fontSize: 16,
@@ -104,8 +151,11 @@ export default function Cta() {
                 margin: '0 0 24px',
               }}
             >
-              定員{next.capacity}名 / 定員超過の場合抽選 / 申込み1分で完了
+              定員{event?.capacity ?? 6}名 / 定員超過の場合抽選 /
+              申込み1分で完了
             </p>
+
+            {/* バッジ一覧 */}
             <div
               className='cta-badges'
               style={{
@@ -129,6 +179,8 @@ export default function Cta() {
                 </div>
               ))}
             </div>
+
+            {/* 安心ポイントのリスト */}
             <div
               style={{
                 marginTop: 32,
@@ -144,7 +196,7 @@ export default function Cta() {
             </div>
           </div>
 
-          {/* 右: Google フォーム */}
+          {/* 右: Google フォーム埋め込み */}
           <div
             style={{
               background: 'white',
@@ -165,7 +217,19 @@ export default function Cta() {
               🚄 イベントに申し込む
             </div>
 
-            {!GOOGLE_FORM_EMBED_URL ? (
+            {/* formUrl がある → フォームを埋め込む、ない → COMING SOON を表示 */}
+            {formUrl ? (
+              <iframe
+                src={formUrl}
+                width='100%'
+                height='560'
+                style={{ border: 0, display: 'block' }}
+                title='イベント申し込みフォーム'
+                sandbox='allow-scripts allow-forms allow-same-origin'
+              >
+                読み込んでいます…
+              </iframe>
+            ) : (
               <div
                 style={{
                   padding: 32,
@@ -189,17 +253,6 @@ export default function Cta() {
                   イベント申し込みフォームを現在準備中です。
                 </div>
               </div>
-            ) : (
-              <iframe
-                src={GOOGLE_FORM_EMBED_URL}
-                width='100%'
-                height='560'
-                style={{ border: 0, display: 'block' }}
-                title='イベント申し込みフォーム'
-                sandbox='allow-scripts allow-forms allow-same-origin'
-              >
-                読み込んでいます…
-              </iframe>
             )}
           </div>
         </div>
