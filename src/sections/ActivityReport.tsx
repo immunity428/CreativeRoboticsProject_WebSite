@@ -15,9 +15,7 @@ type Report = {
   date: string; // 例: "2026.03.15"
   title: string;
   place: string;
-  participants: number;
   body: string;
-  tags: string[]; // 例: ["#M5Stack", "#プラレール"]
   color: 'primary' | 'accent' | 'yellow'; // カードのアクセントカラー
   images: string[]; // 画像URLの配列
   instagram_url: string | null; // Instagram投稿URL（なければ null）
@@ -301,21 +299,6 @@ export default function ActivityReport() {
                   >
                     {r.date}
                   </div>
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      gap: 6,
-                      alignItems: 'center',
-                      padding: '4px 10px',
-                      borderRadius: 999,
-                      background: `${accentColor}15`,
-                      color: accentColor,
-                      fontSize: 11,
-                      fontWeight: 800,
-                    }}
-                  >
-                    👶 {r.participants}名参加
-                  </div>
                 </div>
 
                 {/* 右カラム: タイトル・本文・タグ・メディア */}
@@ -348,25 +331,6 @@ export default function ActivityReport() {
                   >
                     {r.body}
                   </p>
-
-                  {/* タグ一覧 */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {r.tags.map((t) => (
-                      <span
-                        key={t}
-                        style={{
-                          fontSize: 11,
-                          padding: '4px 10px',
-                          borderRadius: 999,
-                          background: T.bgDeep,
-                          color: T.textMute2,
-                          border: `1px solid ${T.border}`,
-                        }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
 
                   {/* メディアエリア: 画像または Instagram がある場合のみ表示 */}
                   {hasMedia && (
