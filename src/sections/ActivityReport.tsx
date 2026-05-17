@@ -135,7 +135,7 @@ export default function ActivityReport() {
     supabase
       .from('reports') // reports テーブルを対象にする
       .select('*') // 全カラムを取得
-      .order('sort_order', { ascending: false }) // sort_order の降順で並べる
+      .order('sort_order', { ascending: true }) // sort_order の昇順で並べる
       .then(({ data, error }) => {
         if (error)
           console.error(error); // エラーはコンソールに出力
