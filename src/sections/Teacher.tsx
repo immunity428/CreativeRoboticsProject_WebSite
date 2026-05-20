@@ -6,9 +6,11 @@ import teachersData from '../data/teachers.json';
 // 画像は動的importできないため photoKey → 画像モジュールのマップを手動管理
 // 新しい講師を追加したら、ここに import と PHOTO_MAP エントリを追加してください
 import kake from '../assets/teacher_kake.jpg';
+import koki from '../assets/teacher_koki.jpg';
 
 const PHOTO_MAP: Record<string, string> = {
   kake,
+  koki,
 };
 
 const TEACHERS = teachersData.teachers.map((t) => ({
