@@ -81,9 +81,11 @@ function ImageGrid({
         <div
           key={i}
           style={{
-            aspectRatio: '4/3',
+            aspectRatio: '1/1',
             overflow: 'hidden',
             background: '#0a1320',
+            maxWidth: 540,
+            margin: '0 auto',
           }}
         >
           <img
