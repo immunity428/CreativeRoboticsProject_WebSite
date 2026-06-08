@@ -24,6 +24,16 @@ const VENUES = [
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3228.1610588169183!2d138.1498933745214!3d35.99193111284607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c5731d3a155d5%3A0xb53ce78ae62650da!2z44GL44G144GH5aSp6aaZ!5e0!3m2!1sja!2sjp!4v1777455240661!5m2!1sja!2sjp',
     rows: [['住所', '長野県茅野市ちの3053']],
   },
+  {
+    id: '8peaks',
+    name: '8Peaks Living',
+    mapSrc:
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103298.41940388264!2d138.00741414335937!3d35.99401920000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c570052f05adf%3A0xfcd8b04a4a554f86!2s8%20Peaks%20Living!5e0!3m2!1sja!2sjp!4v1780894894951!5m2!1sja!2sjp',
+    rows: [
+      ['住所', '長野県茅野市ちの3502-1 ベルビア1F'],
+      ['アクセス', 'JR茅野駅西口から徒歩1分'],
+    ],
+  },
 ] as const;
 
 type VenueId = (typeof VENUES)[number]['id'];
