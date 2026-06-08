@@ -23,11 +23,8 @@ type Report = {
 };
 
 // カスタムフック: Instagram 埋め込みスクリプトの読み込み
-// Instagram の埋め込みには公式スクリプト（embed.js）が必要。
-// このフックは active=true になったとき1回だけスクリプトをロードする。
-// 2回目以降は window.instgrm が存在するので process() を呼ぶだけでOK。
 function useInstagramEmbed(active: boolean) {
-  const loaded = useRef(false); // スクリプトを既にロード済みかどうかのフラグ
+  const loaded = useRef(false);
 
   useEffect(() => {
     if (!active || typeof window === 'undefined') return;
@@ -37,24 +34,21 @@ function useInstagramEmbed(active: boolean) {
     };
 
     if (w.instgrm) {
-      // スクリプトは既にロード済み → 再処理だけ実行
       w.instgrm.Embeds.process();
       return;
     }
 
-    if (loaded.current) return; // ロード中なら何もしない
+    if (loaded.current) return;
     loaded.current = true;
 
-    // <script> タグを動的に作成して body に追加する
     const s = document.createElement('script');
     s.src = 'https://www.instagram.com/embed.js';
-    s.async = true; // 非同期で読み込む
+    s.async = true;
     document.body.appendChild(s);
   }, [active]);
 }
 
 // 子コンポーネント: 画像グリッド
-// 画像の枚数に応じて自動的に列数を変える。
 function ImageGrid({
   images,
   accentColor,
@@ -62,7 +56,7 @@ function ImageGrid({
   images: string[];
   accentColor: string;
 }) {
-  if (!images.length) return null; // 画像がなければ何も表示しない
+  if (!images.length) return null;
 
   const cols = images.length === 1 ? 1 : images.length === 2 ? 2 : 3;
 
@@ -70,11 +64,13 @@ function ImageGrid({
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${cols}, 1fr)`, // 列数を動的に設定
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
         gap: 8,
         borderRadius: 12,
         overflow: 'hidden',
         border: `1px solid ${accentColor}30`,
+        maxWidth: 540,
+        margin: '0 auto',
       }}
     >
       {images.map((src, i) => (
@@ -84,8 +80,6 @@ function ImageGrid({
             aspectRatio: '1/1',
             overflow: 'hidden',
             background: '#0a1320',
-            maxWidth: 540,
-            margin: '0 auto',
           }}
         >
           <img
@@ -105,15 +99,13 @@ function ImageGrid({
 }
 
 // 子コンポーネント: Instagram 埋め込み
-// Instagram の公式埋め込み形式（blockquote）を使う。
-// embed.js がロードされると自動的に iframe に変換される。
 function InstagramEmbed({ url }: { url: string }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <blockquote
         className='instagram-media'
-        data-instgrm-permalink={url} // 埋め込む投稿のURL
-        data-instgrm-version='14' // Instagram API のバージョン
+        data-instgrm-permalink={url}
+        data-instgrm-version='14'
         style={{ margin: 0, maxWidth: 540, width: '100%', border: 'none' }}
       />
     </div>
@@ -122,37 +114,29 @@ function InstagramEmbed({ url }: { url: string }) {
 
 // メインコンポーネント
 export default function ActivityReport() {
-  const { tokens: T } = useTheme(); // デザイントークン（色など）
-  const { navigate } = usePage(); // ページ遷移関数
+  const { tokens: T } = useTheme();
+  const { navigate } = usePage();
 
-  // useState: コンポーネントが持つ状態（データ）を管理する
-  // reports → Supabase から取得したレポートの配列（最初は空）
-  // loading → データ取得中かどうかのフラグ（最初は true）
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect: コンポーネントが画面に表示されたタイミングで1回だけ実行される
-  // 第2引数の [] は「依存配列」で、空なら最初の1回だけ実行される
   useEffect(() => {
     supabase
-      .from('reports') // reports テーブルを対象にする
-      .select('*') // 全カラムを取得
-      .order('sort_order', { ascending: false }) // sort_order の降順で並べる
+      .from('reports')
+      .select('*')
+      .order('sort_order', { ascending: false })
       .then(({ data, error }) => {
-        if (error)
-          console.error(error); // エラーはコンソールに出力
-        else setReports(data ?? []); // データを state に保存（null なら空配列）
-        setLoading(false); // ローディング完了
+        if (error) console.error(error);
+        else setReports(data ?? []);
+        setLoading(false);
       });
-  }, []); // [] = マウント時に1回だけ実行
+  }, []);
 
-  // Instagram 埋め込みが必要かどうかを判定
   const hasInstagram = reports.some((r) => r.instagram_url);
   useInstagramEmbed(hasInstagram);
 
   return (
     <>
-      {/* レスポンシブ対応のスタイル（モバイル用） */}
       <style>{`
         @media (max-width: 768px) {
           .ar-section { padding: 48px 20px !important; }
@@ -166,7 +150,6 @@ export default function ActivityReport() {
         className='ar-section'
         style={{ padding: '72px 48px', position: 'relative' }}
       >
-        {/* 戻るボタン: navigate('home') でホームに戻る */}
         <button
           type='button'
           onClick={() => navigate('home')}
@@ -188,7 +171,6 @@ export default function ActivityReport() {
           ← トップへ戻る
         </button>
 
-        {/* ページヘッダー */}
         <div style={{ marginBottom: 48 }}>
           <div
             style={{
@@ -226,7 +208,6 @@ export default function ActivityReport() {
           </p>
         </div>
 
-        {/* ローディング表示: データ取得中は「読み込み中...」を表示 */}
         {loading && (
           <div
             style={{
@@ -240,10 +221,8 @@ export default function ActivityReport() {
           </div>
         )}
 
-        {/* レポート一覧 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           {reports.map((r, i) => {
-            // color フィールドに応じてアクセントカラーを決定
             const accentColor =
               r.color === 'primary'
                 ? T.primary
@@ -251,7 +230,6 @@ export default function ActivityReport() {
                   ? T.accent
                   : T.yellow;
 
-            // メディア（画像 or Instagram）があるかどうか
             const hasMedia = r.images.length > 0 || !!r.instagram_url;
 
             return (
@@ -270,7 +248,6 @@ export default function ActivityReport() {
                   overflow: 'hidden',
                 }}
               >
-                {/* カード左端の色ライン */}
                 <div
                   style={{
                     position: 'absolute',
@@ -282,9 +259,7 @@ export default function ActivityReport() {
                   }}
                 />
 
-                {/* 左カラム: 日付・参加人数 */}
                 <div>
-                  {/* REPORT 番号（新しい順に大きい番号） */}
                   <div
                     style={{
                       fontSize: 11,
@@ -303,7 +278,6 @@ export default function ActivityReport() {
                   </div>
                 </div>
 
-                {/* 右カラム: タイトル・本文・タグ・メディア */}
                 <div>
                   <h2
                     style={{ fontSize: 22, fontWeight: 900, margin: '0 0 8px' }}
@@ -334,7 +308,6 @@ export default function ActivityReport() {
                     {r.body}
                   </p>
 
-                  {/* メディアエリア: 画像または Instagram がある場合のみ表示 */}
                   {hasMedia && (
                     <div
                       style={{
@@ -344,12 +317,10 @@ export default function ActivityReport() {
                         gap: 16,
                       }}
                     >
-                      {/* 区切り線 */}
                       <div
                         style={{ height: 1, background: `${accentColor}25` }}
                       />
 
-                      {/* 画像グリッド */}
                       {r.images.length > 0 && (
                         <ImageGrid
                           images={r.images}
@@ -357,10 +328,8 @@ export default function ActivityReport() {
                         />
                       )}
 
-                      {/* Instagram 埋め込み */}
                       {r.instagram_url && (
                         <>
-                          {/* 画像もある場合はラベルを表示 */}
                           {r.images.length > 0 && (
                             <div
                               style={{
@@ -388,7 +357,6 @@ export default function ActivityReport() {
           })}
         </div>
 
-        {/* 下部CTA */}
         <div
           style={{
             marginTop: 64,
